@@ -16,6 +16,7 @@ app.get('/', (req, res) => {
 
 app.post('/api/actions', (req, res) => {
 	console.log("Called /api/actions - latest build.");
+	console.log(JSON.stringify(req));
 	
 	res.setHeader('Content-Type', 'application/json'); //Requires application/json MIME type
 
