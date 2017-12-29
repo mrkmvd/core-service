@@ -7,11 +7,13 @@ const express = require('express');
 const app = express();
 
 var path  = require("path");
+var jsonParse = require("json-safe-parse");
 
 function printObject(object){
   var properties = Object.keys(object);
         for(var i=0; i < properties.length; i++) {
           var prop = properties[i];
+          if(prop )
           console.log('property: ' + prop + ' | value: '  + object[prop]);
         }
 };
@@ -24,7 +26,8 @@ app.get('/', (req, res) => {
 
 app.post('/api/actions', (req, res) => {
 	console.log("Called /api/actions - latest build.");
-	printObject(req);
+	var parsedReq = jsonParse(req);
+	console.log(parsedReq);
 	console.log("The request has been logged moving on");
 	
 	res.setHeader('Content-Type', 'application/json'); //Requires application/json MIME type
