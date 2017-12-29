@@ -19,6 +19,7 @@
     "e2e-test": "samples test deploy"
   },
   "dependencies": {
+    "@google-cloud/storage": "^1.5.1",
     "express": "4.15.2",
     "uui": "1.0.3"
   }
