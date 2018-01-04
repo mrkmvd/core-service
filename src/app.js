@@ -3,12 +3,21 @@
 
 // [START app]
 const express = require('express');
+var bodyParser = require('body-parser');
 
 const app = express();
+app.use(bodyParser.urlencoded());
+
 
 var path  = require("path");
-var jsonParse = require("json-safe-parse");
+var firebase = require('./firebase.js');
+initFireBase();
 
+function initFireBase(){
+
+  firebase.init();
+  
+}
 function printObject(object){
   var properties = Object.keys(object);
         for(var i=0; i < properties.length; i++) {
@@ -26,15 +35,13 @@ app.get('/', (req, res) => {
 
 app.post('/api/actions', (req, res) => {
 	console.log("Called /api/actions - latest build.");
-	var parsedReq = jsonParse(req);
-	console.log(parsedReq);
-	console.log("The request has been logged moving on");
-	
+	var JSONPayLoad = JSON.parse(req.body.payload);
+	firebase.logTicket(JSONPayLoad);
 	res.setHeader('Content-Type', 'application/json'); //Requires application/json MIME type
 
 	var resData = {};
 	resData.speech = '';
-	resData.displayText = 'Thanks for the feedback! /api/actions..'+req;
+	resData.displayText = 'OK, A Human agent will help you shortly';
 	resData.data = {};
 	resData.contextOut = [];
 	resData.source = "master";

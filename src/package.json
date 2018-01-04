@@ -20,7 +20,9 @@
   },
   "dependencies": {
     "@google-cloud/storage": "^1.5.1",
+    "body-parser": "^1.18.2",
     "express": "4.15.2",
+    "firebase": "^4.8.1",
     "json-safe-parse": "0.0.2",
     "uui": "1.0.3"
   }

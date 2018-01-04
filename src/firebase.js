@@ -18,17 +18,35 @@ init : function() {
 
 },
 
-logTicket:function () {
-  console.log(userInfo.userId);
-  firebase.database().ref('users/' + userInfo.userId).set({
-    email: userInfo.email,
-    profile_picture : userInfo.profileImage,
-    teamId:userInfo.teamId,
-    userId:userInfo.userId,
-    displayName:userInfo.displayName
-  });
-}
+logTicket:function (slackPostBody) {
 
+
+  var ticketData = {
+  	channel:slackPostBody.channel.id,
+  	createdBy:slackPostBody.user.id,
+  	priority:"high",
+  	status:"New",
+  	messageId:slackPostBody.callback_id,
+  	timestamp:slackPostBody.action_ts,
+
+
+
+  };
+  var ticketKey =firebase.database().ref('tickets/').push().key;
+	var updates={};
+	updates['tickets/'+ticketKey]= ticketData;
+	
+	
+	var messageRef = firebase.database().ref('messages/').child(slackPostBody.callback_id);
+	messageRef.update({
+		ticketId: ticketKey
+	});
+
+
+
+	firebase.database().ref().update(updates);
+		
+},
 
 
 };
